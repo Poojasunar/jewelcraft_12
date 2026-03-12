@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JewelCraft - Online Jewelry Management System</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#faf7f2}
+
+header{background:#111;color:white;padding:18px;text-align:center;position:relative}
+
+.menu{
+position:absolute;
+right:20px;
+top:12px;
+font-size:16px;
+cursor:pointer;
+background:#c9a227;
+color:white;
+padding:8px 12px;
+border-radius:6px;
+font-weight:bold
+}
+
+.dropdown{display:none;position:absolute;right:20px;top:55px;background:white;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.dropdown button{display:block;width:200px;padding:12px;border:none;background:white;color:#222;font-weight:bold;text-align:left;cursor:pointer}
+.dropdown button:hover{background:#f2f2f2}
+
+.center{display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column}
+
+input{padding:10px;margin:10px;width:220px;border-radius:6px;border:1px solid #ccc}
+
+button{padding:10px 18px;border:none;border-radius:6px;background:#c9a227;color:white;font-weight:bold;cursor:pointer}
+button:hover{background:#a8891d}
+
+.hero{background:url("https://images.unsplash.com/photo-1515562141207-7a88fb7ce338") center/cover;height:260px;display:flex;align-items:center;justify-content:center;color:white;font-size:28px;font-weight:bold;text-shadow:0 3px 10px black}
+
+.container{padding:30px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px}
+
+.card{position:relative;background:white;padding:15px;border-radius:12px;box-shadow:0 3px 10px rgba(0,0,0,0.15);text-align:center}
+
+.card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
+
+.price-tag{position:absolute;top:10px;left:10px;background:#c9a227;color:white;padding:5px 10px;border-radius:6px;font-size:14px;font-weight:bold}
+
+.img-placeholder{width:100%;height:160px;border:2px dashed #bbb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#777}
+
+.detail-img{width:100%;height:180px;object-fit:cover;border-radius:8px}
+
+.empty-img{width:100%;height:180px;border:2px dashed #bbb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#777}
+
+.footer{background:#111;color:white;text-align:center;padding:15px;margin-top:40px}
+
+.popup{display:none;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:white;padding:25px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.3);max-width:400px;text-align:center}
+
+.buy-form input{width:90%;margin:8px}
+.buy-form button{background:green}
+
+</style>
+
+<script>
+
+function login(){
+ document.getElementById('loginPage').style.display='none';
+ document.getElementById('homePage').style.display='block';
+}
+
+function toggleMenu(){
+ let menu=document.getElementById('dropdownMenu');
+ menu.style.display = menu.style.display==='block' ? 'none' : 'block';
+}
+
+function openProducts(){
+ document.getElementById('homePage').style.display='none';
+ document.getElementById('productPage').style.display='block';
+ document.getElementById('dropdownMenu').style.display='none';
+}
+
+function backHome(){
+ document.getElementById('productPage').style.display='none';
+ document.getElementById('detailPage').style.display='none';
+ document.getElementById('homePage').style.display='block';
+}
+
+function backProducts(){
+ document.getElementById('detailPage').style.display='none';
+ document.getElementById('productPage').style.display='block';
+}
+
+function viewDetail(name,desc,imgA,imgB){
+ document.getElementById('productPage').style.display='none';
+ document.getElementById('detailPage').style.display='block';
+
+ document.getElementById('detailTitle').innerText=name;
+ document.getElementById('detailDesc').innerText=desc;
+
+ document.getElementById('img1').src=imgA;
+ document.getElementById('img2').src=imgB;
+
+ // store selected product in form
+ document.getElementById('productNameField').value=name;
+
+ // show selected product to customer
+ document.getElementById('orderProductName').innerText=name;
+}
+
+function showPopup(id){
+ document.getElementById(id).style.display='block';
+ document.getElementById('dropdownMenu').style.display='none';
+}
+
+function closePopup(id){
+ document.getElementById(id).style.display='none';
+}
+
+</script>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="center">
+<h1>JewelCraft</h1>
+<p>Online Jewelry Management System</p>
+<input type="text" placeholder="Username">
+<input type="password" placeholder="Password">
+<button onclick="login()">Submit</button>
+</div>
+
+<!-- HOME PAGE -->
+<div id="homePage" style="display:none">
+<header>
+<h1>JewelCraft</h1>
+
+<div class="menu" onclick="toggleMenu()">⋮ Menu</div>
+
+<div id="dropdownMenu" class="dropdown">
+<button onclick="showPopup('featurePopup')">Features</button>
+<button onclick="openProducts()">Product Details</button>
+<button onclick="showPopup('contactPopup')">Contact</button>
+</div>
+
+<p>Online Jewelry Management System</p>
+</header>
+
+<div class="hero">Handmade Jewelry Collection</div>
+
+<div class="container">
+
+<h2 style="text-align:center">Jewelry Showcase</h2>
+
+<div class="grid">
+
+<div class="card">
+<span class="price-tag">₹1500</span>
+<img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e">
+<p>Elegant Rings</p>
+</div>
+
+<div class="card">
+<span class="price-tag">₹2000</span>
+<img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f">
+<p>Designer Necklaces</p>
+</div>
+
+<div class="card">
+<span class="price-tag">₹1200</span>
+<img src="https://images.unsplash.com/photo-1630019852942-f89202989a59">
+<p>Stylish Earrings</p>
+</div>
+
+</div>
+
+<br>
+<div style="text-align:center">
+<button onclick="openProducts()">Explore Products</button>
+</div>
+
+</div>
+
+<div class="footer">© 2026 JewelCraft System</div>
+</div>
+
+<!-- PRODUCT PAGE -->
+<div id="productPage" style="display:none">
+<header><h1>Product Details</h1></header>
+
+<div class="container">
+
+<div class="grid">
+
+<div class="card">
+<div class="img-placeholder">Add Necklace Image</div>
+<h3>Necklace</h3>
+<button onclick="viewDetail('Necklace','Beautiful decorative necklace worn around the neck.','https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f','https://images.unsplash.com/photo-1602751584552-8ba73aad10e1')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Invisible Necklace Image</div>
+<h3>Invisible Necklace</h3>
+<button onclick="viewDetail('Invisible Necklace','Modern floating necklace design popular in handmade jewelry.','https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f','https://images.unsplash.com/photo-1602751584552-8ba73aad10e1')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Hairpins Image</div>
+<h3>Hairpins</h3>
+<button onclick="viewDetail('Hairpins','Decorative pins used for styling hair in traditional fashion.','https://images.unsplash.com/photo-1611652022419-a9419f74343d','https://images.unsplash.com/photo-1620331311520-246422fd82f9')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Earrings Image</div>
+<h3>Earrings</h3>
+<button onclick="viewDetail('Earrings','Stylish earrings worn on the ears for fashion and beauty.','https://images.unsplash.com/photo-1630019852942-f89202989a59','https://images.unsplash.com/photo-1630019852942-f89202989a59')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Rings Image</div>
+<h3>Rings</h3>
+<button onclick="viewDetail('Rings','Finger jewelry symbolizing style and elegance.','https://images.unsplash.com/photo-1605100804763-247f67b3557e','https://images.unsplash.com/photo-1588444837495-c6cfeb53b9e0')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Mangalsutra Image</div>
+<h3>Mangalsutra</h3>
+<button onclick="viewDetail('Mangalsutra','Traditional Indian necklace worn by married women.','https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f','https://images.unsplash.com/photo-1602751584552-8ba73aad10e1')">View</button>
+</div>
+
+<div class="card">
+<div class="img-placeholder">Add Nath Image</div>
+<h3>Nath</h3>
+<button onclick="viewDetail('Nath','Traditional nose ring worn during weddings.','https://images.unsplash.com/photo-1611652022419-a9419f74343d','https://images.unsplash.com/photo-1620331311520-246422fd82f9')">View</button>
+</div>
+
+</div>
+
+<br>
+<div style="text-align:center">
+<button onclick="backHome()">Back to Home</button>
+</div>
+
+</div>
+</div>
+
+<!-- PRODUCT DETAIL PAGE -->
+<div id="detailPage" style="display:none">
+<header><h1 id="detailTitle">Product</h1></header>
+
+<div class="container">
+
+<div class="grid">
+<img id="img1" class="detail-img">
+<img id="img2" class="detail-img">
+<div class="empty-img">Add Your Image</div>
+<div class="empty-img">Add Your Image</div>
+</div>
+
+<p id="detailDesc" style="text-align:center;margin-top:20px"></p>
+
+<h3 style="text-align:center">Buy This Product</h3>
+
+<form class="buy-form" action="https://formsubmit.co/poojasunar024@gmail.com" method="POST" style="text-align:center">
+
+<input type="hidden" id="productNameField" name="Product">
+<input type="hidden" name="_next" value="thankyou.html">
+<input type="hidden" name="_subject" value="New Jewelry Order from JewelCraft">
+
+<p><b>You are ordering:</b></p>
+<p id="orderProductName" style="font-size:18px;font-weight:bold"></p>
+
+<input type="text" name="Customer Name" placeholder="Enter your name" required>
+
+<input type="email" name="Customer Email" placeholder="Enter your email" required>
+
+<input type="text" name="Delivery Address" placeholder="Enter delivery address" required>
+
+<br>
+<button type="submit">Buy Now</button>
+
+</form>
+
+<br>
+<div style="text-align:center">
+<button onclick="backProducts()">Back to Products</button>
+</div>
+
+</div>
+</div>
+
+<!-- FEATURES POPUP -->
+<div id="featurePopup" class="popup">
+<h2>System Features</h2>
+<p>
+Jewelry catalog management<br>
+Handmade jewelry showcase<br>
+Product detail pages<br>
+Customer order form<br>
+Email notification system
+</p>
+<button onclick="closePopup('featurePopup')">Close</button>
+</div>
+
+<!-- CONTACT POPUP -->
+<div id="contactPopup" class="popup">
+<h2>Contact</h2>
+<p>
+Phone: +91 7757061135<br>
+Email: poojasunar024@gmail.com<br>
+Address: Pune, INDIA
+</p>
+<button onclick="closePopup('contactPopup')">Close</button>
+</div>
+
+</body>
+</html>
